@@ -2,37 +2,37 @@ package dev.ohate.wynncraft4j.exception;
 
 public class WynncraftException extends RuntimeException {
 
-    private final int statusCode;
+    private final String error;
+    private final String detail;
+    private final int code;
 
-    /**
-     * Constructs a new WynncraftException with the specified status code, message, and throwable cause.
-     *
-     * @param statusCode The HTTP status code associated with the error.
-     * @param message    The detail message explaining the error.
-     * @param throwable  The throwable cause of the error (can be null).
-     */
-    public WynncraftException(int statusCode, String message, Throwable throwable) {
-        super("[" + statusCode + "] " + message, throwable);
-        this.statusCode = statusCode;
+    private String url;
+
+    public WynncraftException(int code, String error, String detail) {
+        super(detail);
+        this.error = error;
+        this.detail = detail;
+        this.code = code;
     }
 
-    /**
-     * Constructs a new WynncraftException with the specified status code and message.
-     *
-     * @param statusCode The HTTP status code associated with the error.
-     * @param message    The detail message explaining the error.
-     */
-    public WynncraftException(int statusCode, String message) {
-        this(statusCode, message, null);
+    public String getError() {
+        return this.error;
     }
 
-    /**
-     * Retrieves the HTTP status code associated with this exception.
-     *
-     * @return The HTTP status code as an integer.
-     */
-    public int getStatusCode() {
-        return statusCode;
+    public String getDetail() {
+        return this.detail;
+    }
+
+    public int getCode() {
+        return this.code;
+    }
+
+    public String getUrl() {
+        return this.url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }
