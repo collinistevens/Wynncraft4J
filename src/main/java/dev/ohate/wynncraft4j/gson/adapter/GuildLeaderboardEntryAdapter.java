@@ -2,12 +2,12 @@ package dev.ohate.wynncraft4j.gson.adapter;
 
 import com.google.gson.JsonObject;
 import dev.ohate.wynncraft4j.gson.PreprocessingTypeAdapterFactory;
-import dev.ohate.wynncraft4j.response.leaderboards.type.GuildLeaderboard;
+import dev.ohate.wynncraft4j.response.leaderboards.type.GuildLeaderboardEntry;
 
-public class GuildLeaderboardAdapter extends PreprocessingTypeAdapterFactory {
+public class GuildLeaderboardEntryAdapter extends PreprocessingTypeAdapterFactory {
 
-    public GuildLeaderboardAdapter() {
-        super(GuildLeaderboard.class, json -> {
+    public GuildLeaderboardEntryAdapter() {
+        super(GuildLeaderboardEntry.class, json -> {
             JsonObject root = json.getAsJsonObject();
 
             if (root.has("metadata")) return json;
