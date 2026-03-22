@@ -7,4 +7,12 @@ public class ContentStat {
     private int total;
     private Map<String, Integer> list;
 
+    public int getTotal() {
+        return this.total;
+    }
+
+    public Map<String, Integer> getList() {
+        return this.list;
+    }
+
 }
