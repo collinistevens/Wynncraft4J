@@ -1,9 +1,9 @@
 package dev.ohate.wynncraft4j.response.leaderboards.type;
 
 import dev.ohate.wynncraft4j.response.guild.banner.Banner;
-import dev.ohate.wynncraft4j.response.leaderboards.Leaderboard;
+import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardEntry;
 
-public class GuildLeaderboard extends Leaderboard {
+public class GuildLeaderboardEntry extends LeaderboardEntry {
 
     private String prefix;
     private Banner banner;

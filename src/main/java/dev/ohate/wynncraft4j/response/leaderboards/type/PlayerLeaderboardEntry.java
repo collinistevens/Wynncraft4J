@@ -1,10 +1,10 @@
 package dev.ohate.wynncraft4j.response.leaderboards.type;
 
-import dev.ohate.wynncraft4j.response.leaderboards.Leaderboard;
+import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardEntry;
 import dev.ohate.wynncraft4j.response.player.PlayerRankProvider;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerLeaderboard extends Leaderboard implements PlayerRankProvider {
+public class PlayerLeaderboardEntry extends LeaderboardEntry implements PlayerRankProvider {
 
     private String rank;
     private String supportRank;

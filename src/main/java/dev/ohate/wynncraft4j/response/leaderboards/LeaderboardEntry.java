@@ -2,7 +2,7 @@ package dev.ohate.wynncraft4j.response.leaderboards;
 
 import java.util.Map;
 
-public abstract class Leaderboard {
+public abstract class LeaderboardEntry {
 
     private String name;
     private String uuid;
