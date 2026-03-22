@@ -7,6 +7,11 @@ public class BannerLayer {
     @SerializedName("colour") private BannerColor color;
     private BannerPattern pattern;
 
+    public BannerLayer(BannerColor color, BannerPattern pattern) {
+        this.color = color;
+        this.pattern = pattern;
+    }
+
     public BannerColor getColor() {
         return this.color;
     }
