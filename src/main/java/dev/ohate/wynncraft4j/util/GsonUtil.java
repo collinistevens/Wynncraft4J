@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dev.ohate.wynncraft4j.exception.WynncraftException;
 import dev.ohate.wynncraft4j.gson.adapter.GuildLeaderboardEntryAdapter;
-import dev.ohate.wynncraft4j.gson.deserializer.InstantDeserializer;
+import dev.ohate.wynncraft4j.gson.adapter.InstantAdapter;
 import dev.ohate.wynncraft4j.gson.deserializer.WynncraftExceptionDeserializer;
 import dev.ohate.wynncraft4j.response.guild.GuildSummary;
 import dev.ohate.wynncraft4j.response.guild.territory.GuildTerritory;
@@ -26,7 +26,7 @@ public class GsonUtil {
 
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapterFactory(new GuildLeaderboardEntryAdapter())
-            .registerTypeAdapter(Instant.class, new InstantDeserializer())
+            .registerTypeAdapter(Instant.class, new InstantAdapter())
             .registerTypeAdapter(WynncraftException.class, new WynncraftExceptionDeserializer())
             .create();
 
