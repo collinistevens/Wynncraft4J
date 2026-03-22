@@ -1,20 +1,12 @@
 package dev.ohate.wynncraft4j;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import dev.ohate.wynncraft4j.exception.WynncraftException;
-import dev.ohate.wynncraft4j.gson.adapter.GuildLeaderboardAdapter;
-import dev.ohate.wynncraft4j.gson.deserializer.InstantDeserializer;
-import dev.ohate.wynncraft4j.gson.deserializer.WynncraftExceptionDeserializer;
 import dev.ohate.wynncraft4j.response.OnlinePlayers;
 import dev.ohate.wynncraft4j.response.guild.Guild;
 import dev.ohate.wynncraft4j.response.guild.GuildSummary;
 import dev.ohate.wynncraft4j.response.guild.territory.GuildTerritory;
-import dev.ohate.wynncraft4j.response.leaderboards.Leaderboard;
+import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardEntry;
 import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardType;
-import dev.ohate.wynncraft4j.response.leaderboards.type.GuildLeaderboard;
-import dev.ohate.wynncraft4j.response.leaderboards.type.PlayerLeaderboard;
 import dev.ohate.wynncraft4j.response.player.Player;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
@@ -22,24 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.MessageFormat;
-import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import static dev.ohate.wynncraft4j.util.GsonUtil.*;
+
 public class WynncraftClient {
-
-    private final static Type GUILD_LIST_TYPE = new TypeToken<Map<UUID, GuildSummary>>() {
-    }.getType();
-    private final static Type GUILD_TERRITORY_TYPE = new TypeToken<Map<String, GuildTerritory>>() {
-    }.getType();
-
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapterFactory(new GuildLeaderboardAdapter())
-            .registerTypeAdapter(Instant.class, new InstantDeserializer())
-            .registerTypeAdapter(WynncraftException.class, new WynncraftExceptionDeserializer())
-            .create();
 
     private static final String API_URL = "https://api.wynncraft.com/v3/{0}";
     private static final String USER_AGENT = "Wynncraft4J/Dev (@ohate)";
@@ -59,8 +41,12 @@ public class WynncraftClient {
         this.client = builder.build();
     }
 
+    public WynncraftClient(String apiKey) {
+        this(apiKey, null);
+    }
+
     public WynncraftClient() {
-        this("", null);
+        this(null);
     }
 
     // Player Endpoints
@@ -90,16 +76,18 @@ public class WynncraftClient {
     }
 
     public CompletableFuture<Map<String, GuildTerritory>> getGuildTerritory() {
-        return get(GUILD_TERRITORY_TYPE, "guild/list/territory");
+        return get(GUILD_TERRITORY_LIST_TYPE, "guild/list/territory");
     }
 
     // Leaderboard Endpoints
-    public CompletableFuture<? extends Leaderboard> getLeaderboard(LeaderboardType type, int resultLimit) {
-        Class<? extends Leaderboard> responseType = type.isGuild() ?
-                GuildLeaderboard.class :
-                PlayerLeaderboard.class;
-
-        return get(responseType, "leaderboard/{0}?resultLimit={1}", type.getKey(), resultLimit);
+    public CompletableFuture<Map<Integer, LeaderboardEntry>> getLeaderboard(LeaderboardType type, int resultLimit) {
+        return get(type.isGuild() ?
+                        GUILD_LEADERBOARD_TYPE :
+                        PLAYER_LEADERBOARD_TYPE,
+                "leaderboard/{0}?resultLimit={1}",
+                type.getKey(),
+                resultLimit
+        );
     }
 
     private <T> CompletableFuture<T> get(Type type, String endpointTemplate, Object... arguments) {
@@ -109,39 +97,6 @@ public class WynncraftClient {
 
     private <T> CompletableFuture<T> get(Class<T> type, String endpointTemplate, Object... arguments) {
         return get((Type) type, endpointTemplate, arguments);
-    }
-
-    private <T> CompletableFuture<T> createCallback(Type type) {
-        CompletableFuture<T> future = new CompletableFuture<T>();
-
-        Callback callback = new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                future.completeExceptionally(e);
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
-                try (ResponseBody body = response.body()) {
-                    String content = body.string();
-                    String url = call.request().url().toString();
-
-                    if (!response.isSuccessful()) {
-                        WynncraftException exception = GSON.fromJson(content, WynncraftException.class);
-                        exception.setUrl(url);
-                        future.completeExceptionally(exception);
-                        return;
-                    }
-
-                    T value = GSON.fromJson(content, type);
-                    future.complete(value);
-                } catch (Throwable e) {
-                    future.completeExceptionally(e);
-                }
-            }
-        };
-
-        return future;
     }
 
     private Request createRequest(String endpoint, Consumer<Request.Builder> builderConsumer) {
