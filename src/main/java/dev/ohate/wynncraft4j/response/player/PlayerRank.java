@@ -8,6 +8,7 @@ public enum PlayerRank {
     HERO("Hero", 0xAA00AA, 0xFF55FF),
     HEROPLUS("Hero+", 0xBC3C7C, 0xC571A5),
     CHAMPION("Champion", 0xFFFF55, 0xFFAA00),
+    MEDIA("Media", 0xFF55FF, 0xAA00AA),
     ART("Artist", 0x00AAAA, 0x55FFFF),
     QA("QA", 0x00AAAA, 0x55FFFF),
     ITEM("Item", 0x00AAAA, 0x55FFFF),
