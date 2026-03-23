@@ -84,7 +84,7 @@ public class WynncraftClient {
         return get(type.isGuild() ?
                         GUILD_LEADERBOARD_TYPE :
                         PLAYER_LEADERBOARD_TYPE,
-                "leaderboard/{0}?resultLimit={1}",
+                "leaderboards/{0}?resultLimit={1}",
                 type.getKey(),
                 resultLimit
         );
