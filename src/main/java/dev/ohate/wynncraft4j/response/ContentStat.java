@@ -2,16 +2,16 @@ package dev.ohate.wynncraft4j.response;
 
 import java.util.Map;
 
-public class ContentStat {
+public class ContentStat<T> {
 
     private int total;
-    private Map<String, Integer> list;
+    private Map<T, Integer> list;
 
     public int getTotal() {
         return this.total;
     }
 
-    public Map<String, Integer> getList() {
+    public Map<T, Integer> getList() {
         return this.list;
     }
 

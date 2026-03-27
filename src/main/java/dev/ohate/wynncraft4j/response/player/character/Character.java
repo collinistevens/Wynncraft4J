@@ -2,6 +2,7 @@ package dev.ohate.wynncraft4j.response.player.character;
 
 import dev.ohate.wynncraft4j.response.ContentStat;
 import dev.ohate.wynncraft4j.response.player.PlayerCombatStat;
+import dev.ohate.wynncraft4j.response.player.RaidType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -23,14 +24,14 @@ public class Character {
     @Nullable private Integer deaths;
     @Nullable private Integer chestsFound;
     @Nullable private Integer contentCompletion;
-    @Nullable private ContentStat dungeons;
+    @Nullable private ContentStat<String> dungeons;
     @Nullable private Integer discoveries;
     @Nullable private Integer itemsIdentified;
     @Nullable private Integer wars;
     @Nullable private Float playtime;
     @Nullable private Integer caves;
     @Nullable private List<String> quests;
-    @Nullable private ContentStat raids;
+    @Nullable private ContentStat<RaidType> raids;
     @Nullable private PlayerCombatStat pvp;
     @Nullable private Integer blocksWalked;
     @Nullable private Integer worldEvents;
@@ -106,7 +107,7 @@ public class Character {
     }
 
     @Nullable
-    public ContentStat getDungeons() {
+    public ContentStat<String> getDungeons() {
         return this.dungeons;
     }
 
@@ -141,7 +142,7 @@ public class Character {
     }
 
     @Nullable
-    public ContentStat getRaids() {
+    public ContentStat<RaidType> getRaids() {
         return this.raids;
     }
 

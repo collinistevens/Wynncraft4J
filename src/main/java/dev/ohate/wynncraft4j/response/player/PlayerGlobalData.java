@@ -9,8 +9,8 @@ public class PlayerGlobalData {
     private int totalLevel;
     private int mobsKilled;
     private int chestsFound;
-    private ContentStat dungeons;
-    private ContentStat raids;
+    private ContentStat<String> dungeons;
+    private ContentStat<RaidType> raids;
     private int worldEvents;
     private int lootruns;
     private int caves;
@@ -37,11 +37,11 @@ public class PlayerGlobalData {
         return this.chestsFound;
     }
 
-    public ContentStat getDungeons() {
+    public ContentStat<String> getDungeons() {
         return this.dungeons;
     }
 
-    public ContentStat getRaids() {
+    public ContentStat<RaidType> getRaids() {
         return this.raids;
     }
 
