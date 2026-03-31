@@ -47,9 +47,9 @@ public enum LeaderboardType {
     @SerializedName("huichContent") HUICH_CONTENT("huichContent", "HUICH Content", "Content", TOTAL_LEVEL, XP, PLAYTIME),
     @SerializedName("hardcoreLegacyLevel") HARDCORE_LEGACY_LEVEL("hardcoreLegacyLevel", "Hardcore Legacy Level", "Level", TOTAL_LEVEL, XP, PLAYTIME),
 
-    @SerializedName("grootslangCompletion") GROOTSLANG_COMPLETION("grootslangCompletion", "Grooslang Completion", "Completion", PLAYTIME),
+    @SerializedName("grootslangCompletion") GROOTSLANG_COMPLETION("grootslangCompletion", "Grootslang Completion", "Completion", PLAYTIME),
     @SerializedName("grootslangSrPlayers") GROOTSLANG_SR_PLAYERS("grootslangSrPlayers", "Grootslang Sr Players", "Score", COMPLETIONS, GAMBITS),
-    @SerializedName("grootslangSrGuilds") GROOTSLANG_SR_GUILDS("grootslangSrGuilds", "Groostlang Sr Guilds", "Sr Gained", true, COMPLETIONS, GAMBITS),
+    @SerializedName("grootslangSrGuilds") GROOTSLANG_SR_GUILDS("grootslangSrGuilds", "Grootslang Sr Guilds", "Sr Gained", true, COMPLETIONS, GAMBITS),
     @SerializedName("orphionCompletion") ORPHION_COMPLETION("orphionCompletion", "Orphion Completion", "Completion", PLAYTIME),
     @SerializedName("orphionSrPlayers") ORPHION_SR_PLAYERS("orphionSrPlayers", "Orphion Sr Players", "Score", COMPLETIONS, GAMBITS),
     @SerializedName("orphionSrGuilds") ORPHION_SR_GUILDS("orphionSrGuilds", "Orphion Sr Guilds", "Sr Gained", true, COMPLETIONS, GAMBITS),
