@@ -1,17 +1,18 @@
 package dev.ohate.wynncraft4j;
 
-import dev.ohate.wynncraft4j.exception.WynncraftException;
 import dev.ohate.wynncraft4j.response.OnlinePlayers;
+import dev.ohate.wynncraft4j.response.WynnResponse;
 import dev.ohate.wynncraft4j.response.guild.Guild;
 import dev.ohate.wynncraft4j.response.guild.GuildSummary;
+import dev.ohate.wynncraft4j.response.guild.TerritoryResponse;
 import dev.ohate.wynncraft4j.response.guild.territory.GuildTerritory;
 import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardEntry;
 import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardType;
 import dev.ohate.wynncraft4j.response.player.Player;
-import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
+import dev.ohate.wynncraft4j.util.ClientCallback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.MessageFormat;
 import java.util.Map;
@@ -23,8 +24,9 @@ import static dev.ohate.wynncraft4j.util.GsonUtil.*;
 
 public class WynncraftClient {
 
-    private static final String API_URL = "https://api.wynncraft.com/v3/{0}";
-    private static final String USER_AGENT = "Wynncraft4J/Dev (@ohate)";
+    private static final String WYNNCRAFT_API_URL = "https://api.wynncraft.com/v3/{0}";
+    private static final String ATHENA_API_URL = "https://athena.wynntils.com/cache/get/{0}";
+    private static final String USER_AGENT = "Wynncraft4J/1.0";
 
     private final String apiKey;
     private final OkHttpClient client;
@@ -50,37 +52,37 @@ public class WynncraftClient {
     }
 
     // Player Endpoints
-    public CompletableFuture<Player> getPlayer(String player) {
+    public CompletableFuture<WynnResponse<Player>> getPlayer(String player) {
         return get(Player.class, "player/{0}?fullResult", player);
     }
 
-    public CompletableFuture<OnlinePlayers> getOnlinePlayers() {
+    public CompletableFuture<WynnResponse<OnlinePlayers>> getOnlinePlayers() {
         return get(OnlinePlayers.class, "player?identifier=username");
     }
 
     // Guild Endpoints
-    public CompletableFuture<Guild> getGuildByUuid(String guild) {
+    public CompletableFuture<WynnResponse<Guild>> getGuildByUuid(String guild) {
         return get(Guild.class, "guild/uuid/{0}?identifier=uuid", guild);
     }
 
-    public CompletableFuture<Guild> getGuildByName(String guild) {
+    public CompletableFuture<WynnResponse<Guild>> getGuildByName(String guild) {
         return get(Guild.class, "guild/{0}?identifier=uuid", guild);
     }
 
-    public CompletableFuture<Guild> getGuildByPrefix(String guild) {
+    public CompletableFuture<WynnResponse<Guild>> getGuildByPrefix(String guild) {
         return get(Guild.class, "guild/prefix/{0}?identifier=uuid", guild);
     }
 
-    public CompletableFuture<Map<UUID, GuildSummary>> getGuildList() {
+    public CompletableFuture<WynnResponse<Map<UUID, GuildSummary>>> getGuildList() {
         return get(GUILD_LIST_TYPE, "guild/list/guild?identifier=uuid");
     }
 
-    public CompletableFuture<Map<String, GuildTerritory>> getGuildTerritory() {
-        return get(GUILD_TERRITORY_LIST_TYPE, "guild/list/territory");
+    public CompletableFuture<WynnResponse<TerritoryResponse>> getGuildTerritoryList() {
+        return getAthena(TerritoryResponse.class, "territoryList");
     }
 
     // Leaderboard Endpoints
-    public CompletableFuture<Map<Integer, LeaderboardEntry>> getLeaderboard(LeaderboardType type, int resultLimit) {
+    public CompletableFuture<WynnResponse<Map<Integer, LeaderboardEntry>>> getLeaderboard(LeaderboardType type, int resultLimit) {
         return get(type.isGuild() ?
                         GUILD_LEADERBOARD_TYPE :
                         PLAYER_LEADERBOARD_TYPE,
@@ -90,68 +92,46 @@ public class WynncraftClient {
         );
     }
 
-    private <T> CompletableFuture<T> get(Type type, String endpointTemplate, Object... arguments) {
-        Request request = createRequest(MessageFormat.format(endpointTemplate, arguments));
-        return execute(type, request);
+    private String formatUrl(String baseUrl, String endpoint, Object... arguments) {
+        return MessageFormat.format(MessageFormat.format(baseUrl, endpoint), arguments);
     }
 
-    private <T> CompletableFuture<T> get(Class<T> type, String endpointTemplate, Object... arguments) {
+    private <T> CompletableFuture<WynnResponse<T>> getAthena(Type type, String endpoint, Object... arguments) {
+        return execute(type, createRequest(formatUrl(ATHENA_API_URL, endpoint, arguments)).build());
+    }
+
+    private <T> CompletableFuture<WynnResponse<T>> getAthena(Class<T> type, String endpoint, Object... arguments) {
+        return getAthena((Type) type, endpoint, arguments);
+    }
+
+    private <T> CompletableFuture<WynnResponse<T>> get(Type type, String endpoint, Object... arguments) {
+        return execute(type, createRequest(formatUrl(WYNNCRAFT_API_URL, endpoint, arguments)).build());
+    }
+
+    private <T> CompletableFuture<WynnResponse<T>> get(Class<T> type, String endpointTemplate, Object... arguments) {
         return get((Type) type, endpointTemplate, arguments);
     }
 
-    private Request createRequest(String endpoint, Consumer<Request.Builder> builderConsumer) {
+    private Request.Builder createRequest(String url) {
         Request.Builder builder = new Request.Builder()
-                .url(MessageFormat.format(API_URL, endpoint))
+                .url(url)
+                .get()
                 .header("Content-Type", "application/json")
-                .header("User-Agent", USER_AGENT)
-                .get();
+                .header("User-Agent", USER_AGENT);
 
         if (this.apiKey != null && !this.apiKey.isEmpty()) {
             builder.header("Authorization", "Bearer " + this.apiKey);
         }
 
-        if (builderConsumer != null) {
-            builderConsumer.accept(builder);
-        }
-
-        return builder.build();
+        return builder;
     }
 
-    private Request createRequest(String endpoint) {
-        return createRequest(endpoint, null);
-    }
+    private <T> CompletableFuture<WynnResponse<T>> execute(Type type, Request request) {
+        ClientCallback<T> callback = new ClientCallback<>(type);
 
-    private <T> CompletableFuture<T> execute(Type type, Request request) {
-        CompletableFuture<T> future = new CompletableFuture<T>();
+        this.client.newCall(request).enqueue(callback);
 
-        this.client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                future.completeExceptionally(e);
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
-                try (ResponseBody body = response.body()) {
-                    String content = body.string();
-                    String url = call.request().url().toString();
-
-                    if (!response.isSuccessful()) {
-                        WynncraftException exception = GSON.fromJson(content, WynncraftException.class);
-                        exception.setUrl(url);
-                        future.completeExceptionally(exception);
-                        return;
-                    }
-
-                    T value = GSON.fromJson(content, type);
-                    future.complete(value);
-                } catch (Throwable e) {
-                    future.completeExceptionally(e);
-                }
-            }
-        });
-
-        return future;
+        return callback.getFuture();
     }
 
 }
