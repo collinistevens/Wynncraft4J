@@ -1,7 +1,12 @@
 package dev.ohate.wynncraft4j.response.player;
 
 import dev.ohate.wynncraft4j.response.ContentStat;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 
+@Data
+@Setter(AccessLevel.NONE)
 public class PlayerGlobalData {
 
     private int contentCompletion;
@@ -16,53 +21,5 @@ public class PlayerGlobalData {
     private int caves;
     private int completedQuests;
     private PlayerCombatStat pvp;
-
-    public int getContentCompletion() {
-        return this.contentCompletion;
-    }
-
-    public int getWars() {
-        return this.wars;
-    }
-
-    public int getTotalLevel() {
-        return this.totalLevel;
-    }
-
-    public int getMobsKilled() {
-        return this.mobsKilled;
-    }
-
-    public int getChestsFound() {
-        return this.chestsFound;
-    }
-
-    public ContentStat<String> getDungeons() {
-        return this.dungeons;
-    }
-
-    public ContentStat<RaidType> getRaids() {
-        return this.raids;
-    }
-
-    public int getWorldEvents() {
-        return this.worldEvents;
-    }
-
-    public int getLootruns() {
-        return this.lootruns;
-    }
-
-    public int getCaves() {
-        return this.caves;
-    }
-
-    public int getCompletedQuests() {
-        return this.completedQuests;
-    }
-
-    public PlayerCombatStat getPvp() {
-        return this.pvp;
-    }
 
 }

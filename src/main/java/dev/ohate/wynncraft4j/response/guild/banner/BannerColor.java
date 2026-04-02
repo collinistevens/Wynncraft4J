@@ -1,5 +1,8 @@
 package dev.ohate.wynncraft4j.response.guild.banner;
 
+import lombok.Getter;
+
+@Getter
 public enum BannerColor {
     WHITE(0xBABFBE),
     ORANGE(0xBB6016),
@@ -22,10 +25,6 @@ public enum BannerColor {
 
     BannerColor(int color) {
         this.color = color;
-    }
-
-    public int getColor() {
-        return this.color;
     }
 
 }

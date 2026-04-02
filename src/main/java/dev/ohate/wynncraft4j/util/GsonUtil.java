@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import dev.ohate.wynncraft4j.gson.adapter.GuildLeaderboardEntryAdapter;
 import dev.ohate.wynncraft4j.gson.adapter.InstantAdapter;
+import dev.ohate.wynncraft4j.gson.adapter.PlayerLeaderboardEntryAdapter;
 import dev.ohate.wynncraft4j.response.guild.GuildSummary;
 import dev.ohate.wynncraft4j.response.guild.territory.GuildTerritory;
 import dev.ohate.wynncraft4j.response.leaderboards.type.GuildLeaderboardEntry;
@@ -25,6 +26,7 @@ public class GsonUtil {
     public static final Type PLAYER_OPTION_TYPE = mapOf(UUID.class, PlayerOption.class);
 
     public static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapterFactory(new PlayerLeaderboardEntryAdapter())
             .registerTypeAdapterFactory(new GuildLeaderboardEntryAdapter())
             .registerTypeAdapter(Instant.class, new InstantAdapter())
             .create();

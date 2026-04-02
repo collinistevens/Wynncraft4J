@@ -1,7 +1,13 @@
 package dev.ohate.wynncraft4j.response.player;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Data
+@Setter(AccessLevel.NONE)
 public class PlayerGuild {
 
     private UUID uuid;
@@ -9,25 +15,5 @@ public class PlayerGuild {
     private String prefix;
     private String rank;
     private String rankStars;
-
-    public UUID getUuid() {
-        return this.uuid;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getPrefix() {
-        return this.prefix;
-    }
-
-    public String getRank() {
-        return this.rank;
-    }
-
-    public String getRankStars() {
-        return this.rankStars;
-    }
 
 }

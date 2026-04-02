@@ -1,5 +1,8 @@
 package dev.ohate.wynncraft4j.response.player;
 
+import lombok.Getter;
+
+@Getter
 public enum PlayerRank {
     UNKNOWN("Unknown", 0xFFFFFF, 0xFFFFFF),
     PLAYER("Player", 0xAAAAAA, 0xAAAAAA),
@@ -28,18 +31,6 @@ public enum PlayerRank {
         this.readableString = readableString;
         this.nameColor = nameColor;
         this.rankColor = rankColor;
-    }
-
-    public String getReadableString() {
-        return this.readableString;
-    }
-
-    public int getNameColor() {
-        return this.nameColor;
-    }
-
-    public int getRankColor() {
-        return this.rankColor;
     }
 
     public static PlayerRank fromString(String rankName) {

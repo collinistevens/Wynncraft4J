@@ -2,9 +2,11 @@ package dev.ohate.wynncraft4j.response.player;
 
 import com.google.gson.annotations.SerializedName;
 import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardType;
+import lombok.Getter;
 
 import static dev.ohate.wynncraft4j.response.leaderboards.LeaderboardType.*;
 
+@Getter
 public enum RaidType {
     @SerializedName("Orphion's Nexus of Light") NEXUS_OF_LIGHT(
             "Orphion's Nexus of Light",
@@ -53,26 +55,6 @@ public enum RaidType {
         this.completionLeaderboard = completionLeaderboard;
         this.srPlayersLeaderboard = srPlayersLeaderboard;
         this.srGuildsLeaderboard = srGuildsLeaderboard;
-    }
-
-    public String getReadableString() {
-        return this.readableString;
-    }
-
-    public String getShortenedString() {
-        return this.shortenedString;
-    }
-
-    public LeaderboardType getCompletionLeaderboard() {
-        return this.completionLeaderboard;
-    }
-
-    public LeaderboardType getSrPlayersLeaderboard() {
-        return this.srPlayersLeaderboard;
-    }
-
-    public LeaderboardType getSrGuildsLeaderboard() {
-        return this.srGuildsLeaderboard;
     }
 
 }

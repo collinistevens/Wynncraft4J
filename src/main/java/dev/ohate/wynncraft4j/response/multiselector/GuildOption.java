@@ -1,7 +1,13 @@
 package dev.ohate.wynncraft4j.response.multiselector;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
 import java.time.Instant;
 
+@Data
+@Setter(AccessLevel.NONE)
 public class GuildOption {
 
     private String name;
@@ -9,25 +15,5 @@ public class GuildOption {
     private int level;
     private int members;
     private Instant created;
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getPrefix() {
-        return this.prefix;
-    }
-
-    public int getLevel() {
-        return this.level;
-    }
-
-    public int getMembers() {
-        return this.members;
-    }
-
-    public Instant getCreated() {
-        return this.created;
-    }
 
 }

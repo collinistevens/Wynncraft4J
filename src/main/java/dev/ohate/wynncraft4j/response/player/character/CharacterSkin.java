@@ -1,5 +1,8 @@
 package dev.ohate.wynncraft4j.response.player.character;
 
+import lombok.Getter;
+
+@Getter
 public enum CharacterSkin {
     HUNTER("Hunter"),
     KNIGHT("Knight"),
@@ -11,10 +14,6 @@ public enum CharacterSkin {
 
     CharacterSkin(String readableString) {
         this.readableString = readableString;
-    }
-
-    public String getReadableString() {
-        return this.readableString;
     }
 
 }

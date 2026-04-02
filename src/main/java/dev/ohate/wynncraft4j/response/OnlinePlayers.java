@@ -1,10 +1,16 @@
 package dev.ohate.wynncraft4j.response;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Data
+@Setter(AccessLevel.NONE)
 public class OnlinePlayers {
 
     private int total;
@@ -40,14 +46,6 @@ public class OnlinePlayers {
                         (a, b) -> a,
                         LinkedHashMap::new
                 ));
-    }
-
-    public int getTotal() {
-        return this.total;
-    }
-
-    public Map<String, String> getPlayers() {
-        return this.players;
     }
 
 }

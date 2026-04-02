@@ -1,16 +1,14 @@
 package dev.ohate.wynncraft4j.response.guild;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
+@Data
+@Setter(AccessLevel.NONE)
 public class GuildSummary {
 
     private String name;
     private String prefix;
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getPrefix() {
-        return this.prefix;
-    }
 
 }
