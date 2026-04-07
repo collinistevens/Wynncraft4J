@@ -7,10 +7,8 @@ import dev.ohate.wynncraft4j.gson.adapter.GuildLeaderboardEntryAdapter;
 import dev.ohate.wynncraft4j.gson.adapter.InstantAdapter;
 import dev.ohate.wynncraft4j.gson.adapter.PlayerLeaderboardEntryAdapter;
 import dev.ohate.wynncraft4j.response.guild.GuildSummary;
-import dev.ohate.wynncraft4j.response.guild.territory.GuildTerritory;
 import dev.ohate.wynncraft4j.response.leaderboards.type.GuildLeaderboardEntry;
 import dev.ohate.wynncraft4j.response.leaderboards.type.PlayerLeaderboardEntry;
-import dev.ohate.wynncraft4j.response.multiselector.GuildOption;
 import dev.ohate.wynncraft4j.response.multiselector.PlayerOption;
 
 import java.lang.reflect.Type;
