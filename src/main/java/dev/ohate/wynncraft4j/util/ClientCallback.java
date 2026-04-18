@@ -1,5 +1,6 @@
 package dev.ohate.wynncraft4j.util;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.ohate.wynncraft4j.response.WynnResponse;
@@ -8,6 +9,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static dev.ohate.wynncraft4j.util.GsonUtil.GSON;

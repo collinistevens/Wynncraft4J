@@ -19,4 +19,55 @@ public class TextColor {
     public static int YELLOW = 0xFFFF55;
     public static int WHITE = 0xFFFFFF;
 
+    public static int parse(String value) {
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("Text color string must not be null or empty");
+        }
+
+        value = value.toLowerCase();
+
+        return switch (value) {
+            case "black" -> BLACK;
+            case "dark-blue" -> DARK_BLUE;
+            case "dark-green" -> DARK_GREEN;
+            case "dark-aqua" -> DARK_AQUA;
+            case "dark-red" -> DARK_RED;
+            case "dark-purple" -> DARK_PURPLE;
+            case "gold" -> GOLD;
+            case "gray" -> GRAY;
+            case "dark-gray" -> DARK_GRAY;
+            case "blue" -> BLUE;
+            case "green" -> GREEN;
+            case "aqua" -> AQUA;
+            case "red" -> RED;
+            case "light-purple" -> LIGHT_PURPLE;
+            case "yellow" -> YELLOW;
+            case "white" -> WHITE;
+            default -> {
+                try {
+                    if (value.startsWith("#")) {
+                        String hex = value.substring(1);
+                        if (hex.length() == 3) {
+                            hex = String.valueOf(new char[]{
+                                    hex.charAt(0), hex.charAt(0),
+                                    hex.charAt(1), hex.charAt(1),
+                                    hex.charAt(2), hex.charAt(2)
+                            });
+                        }
+
+                        yield Integer.parseInt(hex, 16);
+                    }
+
+                    if (value.startsWith("0x")) {
+                        yield Integer.parseInt(value.substring(2), 16);
+                    }
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Invalid text color value: \"" + value + "\"");
+                }
+
+                throw new IllegalArgumentException("Unknown text color: \"" + value + "\"");
+            }
+        };
+    }
+
 }
