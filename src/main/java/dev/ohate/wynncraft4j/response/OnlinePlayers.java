@@ -7,11 +7,15 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Data
 @Setter(AccessLevel.NONE)
 public class OnlinePlayers {
+
+    private static final Pattern SERVER_PATTERN = Pattern.compile("^([a-zA-Z]+)(\\d+)$");
 
     private int total;
     private Map<String, String> players;
@@ -20,19 +24,18 @@ public class OnlinePlayers {
         Map<String, Map<Integer, Integer>> result = new HashMap<>();
 
         for (String server : this.players.values()) {
-            int splitIndex = 0;
-            while (splitIndex < server.length() && !Character.isDigit(server.charAt(splitIndex))) {
-                splitIndex++;
-            }
+            if (server == null) continue;
 
-            String region = server.substring(0, splitIndex);
-            int number = Integer.parseInt(server.substring(splitIndex));
+            Matcher matcher = SERVER_PATTERN.matcher(server);
+            if (!matcher.matches()) continue;
+
+            String region = matcher.group(1);
+            int number = Integer.parseInt(matcher.group(2));
 
             result.computeIfAbsent(region, r -> new HashMap<>())
                     .merge(number, 1, Integer::sum);
         }
 
-        // Sort regions by total player count (descending)
         return result.entrySet()
                 .stream()
                 .sorted((a, b) -> {
@@ -47,5 +50,6 @@ public class OnlinePlayers {
                         LinkedHashMap::new
                 ));
     }
+
 
 }

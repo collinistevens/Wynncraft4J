@@ -13,7 +13,7 @@ public abstract class LeaderboardEntry {
     private String name;
     private String uuid;
     private long score;
-    private Map<LeaderboardMetadata, Double> metadata;
+    private Map<LeaderboardMetadata, String> metadata;
 
     public boolean hasMetadata(LeaderboardMetadata... metadata) {
         for (LeaderboardMetadata key : metadata) {

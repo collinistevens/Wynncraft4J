@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,18 @@ public class Character {
     private Integer logins;
     @Nullable
     private Integer mobsKilled;
+
+    public List<CharacterGamemode> getSortedGamemodes() {
+        List<CharacterGamemode> gamemodes = new ArrayList<>(this.gamemode);
+        gamemodes.sort(Comparator.comparingInt(CharacterGamemode::ordinal));
+
+        if (gamemodes.contains(CharacterGamemode.ULTIMATE_IRONMAN)) {
+            gamemodes.remove(CharacterGamemode.IRONMAN);
+        }
+
+        return gamemodes;
+    }
+
 
     public boolean isStatRemoved(CharacterStat stat) {
         return this.removedStat.contains(stat);

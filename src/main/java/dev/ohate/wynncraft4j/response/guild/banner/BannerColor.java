@@ -1,6 +1,5 @@
 package dev.ohate.wynncraft4j.response.guild.banner;
 
-import dev.ohate.wynncraft4j.util.TextColor;
 import lombok.Getter;
 
 @Getter
@@ -26,34 +25,6 @@ public enum BannerColor {
 
     BannerColor(int color) {
         this.color = color;
-    }
-
-    public static int parse(String value) {
-        if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("Banner color string must not be null or empty");
-        }
-
-        value = value.toLowerCase();
-
-        return switch (value) {
-            case "white" -> WHITE.color;
-            case "orange" -> ORANGE.color;
-            case "magenta" -> MAGENTA.color;
-            case "light-blue" -> LIGHT_BLUE.color;
-            case "yellow" -> YELLOW.color;
-            case "lime" -> LIME.color;
-            case "pink" -> PINK.color;
-            case "gray" -> GRAY.color;
-            case "silver" -> SILVER.color;
-            case "cyan" -> CYAN.color;
-            case "purple" -> PURPLE.color;
-            case "blue" -> BLUE.color;
-            case "brown" -> BROWN.color;
-            case "green" -> GREEN.color;
-            case "red" -> RED.color;
-            case "black" -> BLACK.color;
-            default -> throw new IllegalArgumentException("Unknown banner color: \"" + value + "\"");
-        };
     }
 
 }

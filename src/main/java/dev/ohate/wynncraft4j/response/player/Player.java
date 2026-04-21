@@ -8,9 +8,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Fields that can be null via privacy settings:
@@ -48,6 +46,33 @@ public class Player implements PlayerRankProvider {
     @Nullable
     private Map<UUID, Character> characters;
     private Map<PlayerRestriction, Boolean> restrictions;
+
+    public List<Character> getTopCharacters(int limit) {
+        if (this.characters == null) {
+            return Collections.emptyList();
+        }
+
+        return this.characters
+                .values()
+                .stream()
+                .sorted(Comparator.comparingInt(Character::getTotalLevel).reversed())
+                .limit(limit)
+                .toList();
+    }
+
+    public Map<LeaderboardType, Integer> compileRankings(List<LeaderboardType> types) {
+        Map<LeaderboardType, Integer> rankings = new LinkedHashMap<>();
+
+        for (LeaderboardType type : types) {
+            Integer position = this.ranking.get(type);
+
+            if (position != null) {
+                rankings.put(type, position);
+            }
+        }
+
+        return rankings;
+    }
 
     public boolean hasRankings(List<LeaderboardType> leaderboards) {
         for (LeaderboardType type : leaderboards) {

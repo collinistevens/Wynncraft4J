@@ -16,10 +16,12 @@ public class PlayerLeaderboardEntryAdapter extends PreprocessingTypeAdapterFacto
 
             if (root.has("characterUuid")) {
                 metadata.addProperty("characterUuid", root.get("characterUuid").getAsString());
+                root.remove("characterUuid");
             }
 
             if (root.has("characterType")) {
                 metadata.addProperty("characterType", root.get("characterType").getAsString());
+                root.remove("characterType");
             }
 
             root.add("metadata", metadata);
