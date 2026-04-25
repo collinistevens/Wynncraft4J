@@ -2,6 +2,8 @@ package dev.ohate.wynncraft4j.response.player.character;
 
 import dev.ohate.wynncraft4j.response.ContentStat;
 import dev.ohate.wynncraft4j.response.leaderboards.LeaderboardType;
+import dev.ohate.wynncraft4j.response.player.DungeonStat;
+import dev.ohate.wynncraft4j.response.player.DungeonType;
 import dev.ohate.wynncraft4j.response.player.PlayerCombatStat;
 import dev.ohate.wynncraft4j.response.player.RaidType;
 import lombok.AccessLevel;
@@ -9,10 +11,7 @@ import lombok.Data;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @Setter(AccessLevel.NONE)
@@ -67,6 +66,22 @@ public class Character {
     private Integer logins;
     @Nullable
     private Integer mobsKilled;
+
+    public Map<DungeonType, DungeonStat> compileDungeons() {
+        Map<DungeonType, DungeonStat> dungeons = new LinkedHashMap<>();
+        Map<String, Integer> dungeonList = this.dungeons.getList();
+
+        for (DungeonType type : DungeonType.values()) {
+            int normal = dungeonList.getOrDefault(type.getName(), 0);
+            int corrupted = dungeonList.getOrDefault("Corrupted " + type.getName(), 0);
+
+            if (normal != 0 || corrupted != 0) {
+                dungeons.put(type, new DungeonStat(normal, corrupted));
+            }
+        }
+
+        return dungeons;
+    }
 
     public List<CharacterGamemode> getSortedGamemodes() {
         List<CharacterGamemode> gamemodes = new ArrayList<>(this.gamemode);
