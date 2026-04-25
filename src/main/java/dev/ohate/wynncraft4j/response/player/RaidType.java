@@ -36,12 +36,12 @@ public enum RaidType {
             NAMELESS_SR_PLAYERS,
             NAMELESS_SR_GUILDS
     ),
-    @SerializedName(value = "The Wartorn Palace", alternate = "unknown") THE_WARTORN_PALACE(
+    @SerializedName(value = "The Wartorn Palace") THE_WARTORN_PALACE(
             "The Wartorn Palace",
             "WTP",
-            null,
-            null,
-            null
+            FRUMA_COMPLETION,
+            FRUMA_SR_PLAYERS,
+            FRUMA_SR_GUILDS
     );
 
     private final String readableString;

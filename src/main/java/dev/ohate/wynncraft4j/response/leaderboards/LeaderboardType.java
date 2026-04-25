@@ -11,9 +11,7 @@ public enum LeaderboardType {
     @SerializedName("guildLevel") GUILD_LEVEL("guildLevel", "Guild Level", "Level", true, LEVEL, TERRITORIES, WARS),
     @SerializedName("guildTerritories") GUILD_TERRITORIES("guildTerritories", "Guild Territories", "Territories", true, TERRITORIES, WARS, LEVEL),
     @SerializedName("guildWars") GUILD_WARS("guildWars", "Guild Wars", "Wars", true, WARS, TERRITORIES, LEVEL),
-    @SerializedName("guildRaids") GUILD_RAIDS("guildRaids", "Guild Raids", "", true), // TODO, MISSING FROM LB TYPES
-    @SerializedName("NASrPlayers") NA_SR_PLAYERS("NASrPlayers", "", ""), // TODO
-    @SerializedName("NASrGuilds") NA_SR_GUILDS("NASrGuilds", "", ""), // TODO
+    @SerializedName("guildRaids") GUILD_RAIDS("guildRaids", "Guild Raids", "Raids", true, COMPLETIONS, GAMBITS),
 
     @SerializedName("globalPlayerContent") GLOBAL_PLAYER_CONTENT("globalPlayerContent", "Global Total Content", "Content", TOTAL_LEVEL, XP, PLAYTIME),
     @SerializedName("playerContent") PLAYER_CONTENT("playerContent", "Total Content", "Content", TOTAL_LEVEL, XP, PLAYTIME, CHARACTER_UUID, CHARACTER_TYPE),
@@ -62,12 +60,18 @@ public enum LeaderboardType {
     @SerializedName("colossusSrGuilds") COLOSSUS_SR_GUILDS("colossusSrGuilds", "Colossus Sr Guilds", "Sr Gained", true, COMPLETIONS, GAMBITS),
     @SerializedName("namelessCompletion") NAMELESS_COMPLETION("namelessCompletion", "Nameless Completion", "Completion", PLAYTIME),
     @SerializedName("namelessSrPlayers") NAMELESS_SR_PLAYERS("namelessSrPlayers", "Nameless Sr Players", "Score", COMPLETIONS, GAMBITS),
-    @SerializedName("namelessSrGuilds") NAMELESS_SR_GUILDS("namelessSrGuilds", "Nameless Sr Guilds", "Sr Gained", true, COMPLETIONS, GAMBITS);
+    @SerializedName("namelessSrGuilds") NAMELESS_SR_GUILDS("namelessSrGuilds", "Nameless Sr Guilds", "Sr Gained", true, COMPLETIONS, GAMBITS),
+
+    @SerializedName("frumaCompletion") FRUMA_COMPLETION("frumaCompletion", "Fruma Completion", "Score", COMPLETIONS, GAMBITS),
+    @SerializedName("frumaSrPlayers") FRUMA_SR_PLAYERS("frumaSrPlayers", "Fruma Sr Players", "Score", COMPLETIONS, GAMBITS),
+    @SerializedName("frumaSrGuilds") FRUMA_SR_GUILDS("frumaSrGuilds", "Fruma Sr Guilds", "Sr Gained", true, PLAYTIME)
+    ;
 
     public static List<LeaderboardType> GUILD_LEADERBOARDS = Arrays.asList(
             GUILD_LEVEL,
             GUILD_TERRITORIES,
-            GUILD_WARS
+            GUILD_WARS,
+            GUILD_RAIDS
     );
 
     public static List<LeaderboardType> RAID_LEADERBOARDS = Arrays.asList(
@@ -82,21 +86,26 @@ public enum LeaderboardType {
             COLOSSUS_SR_GUILDS,
             NAMELESS_COMPLETION,
             NAMELESS_SR_PLAYERS,
-            NAMELESS_SR_GUILDS
+            NAMELESS_SR_GUILDS,
+            FRUMA_COMPLETION,
+            FRUMA_SR_PLAYERS,
+            FRUMA_SR_GUILDS
     );
 
     public static List<LeaderboardType> RAID_SR_PLAYERS_LEADERBOARDS = Arrays.asList(
             GROOTSLANG_SR_PLAYERS,
             ORPHION_SR_PLAYERS,
             COLOSSUS_SR_PLAYERS,
-            NAMELESS_SR_PLAYERS
+            NAMELESS_SR_PLAYERS,
+            FRUMA_SR_PLAYERS
     );
 
     public static List<LeaderboardType> RAID_CR_PLAYERS_LEADERBOARDS = Arrays.asList(
             GROOTSLANG_COMPLETION,
             ORPHION_COMPLETION,
             COLOSSUS_COMPLETION,
-            NAMELESS_COMPLETION
+            NAMELESS_COMPLETION,
+            FRUMA_COMPLETION
     );
 
     public static List<LeaderboardType> PROFFESSION_LEADERBOARDS = Arrays.asList(
